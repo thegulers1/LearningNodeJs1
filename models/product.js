@@ -1,8 +1,8 @@
 const products = [
-    {id:"121223",name:'Samsung S8',price:3000,image:'1.jpg',description:'iyi telefon'},
-    {id:"121221",name:'Samsung S7',price:4000,image:'1.jpg',description:'idare telefon'},
-    {id:"121224",name:'Samsung S6',price:5000,image:'1.jpg',description:'kötü telefon'},
-    {id:"121226",name:'Samsung S9',price:6000,image:'1.jpg',description:'müko telefon'}
+    {id:"121223",name:'Samsung S8',price:3000,image:'1.jpg',description:'iyi telefon',categoryid:"2"},
+    {id:"121221",name:'Samsung S7',price:4000,image:'1.jpg',description:'idare telefon',categoryid:"1"},
+    {id:"121224",name:'Samsung S6',price:5000,image:'1.jpg',description:'kötü telefon',categoryid:"2"},
+    {id:"121226",name:'Samsung S9',price:6000,image:'1.jpg',description:'müko telefon',categoryid:"3"}
  ];
 //const products = [];
 module.exports = class Product{
@@ -21,9 +21,17 @@ module.exports = class Product{
         return products;
     }
     static getById(id){
-        const product = products.find(i => i.id === id)
-        return product;
+        return products.find(i => i.id === id)
+        
+        //find aynı urun varsa getırır ıd ler eslesen 
+            
     }
+   
+    static getProductsByCategoryId(categoryid){
+        return products.filter(i => i.categoryid === categoryid)
+        //filter butun urunlerı ceker id leri eşleşen
+    }
+
     static Update(product){
         const index = products.findIndex(i => i.id === product.id);
         
