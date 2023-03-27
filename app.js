@@ -20,6 +20,6 @@ app.get('/',(req,res,next)=>{
 })
 //404page
 app.use(errorController.get404Page);
-app.listen(3000,()=>{
+app.listen(5000,()=>{
 
 })

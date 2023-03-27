@@ -1,5 +1,10 @@
 extends ../layouts/main-layout.pug
-block content       
+block content      
+    .row
+      .col-lg-3
+        include ../includes/menu.pug
+      .col-lg-9
+
     .row    
         .col-md-4 
             img(src=`/images/${product.image}` alt=`${product.description}`).img-fluid

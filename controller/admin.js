@@ -7,9 +7,11 @@ exports.getProducts = (req,res,next)=>{
     res.render('admin/products', {
        title:'Admin Products',
        products: products,
-       path:'/admin/products'
+       path:'/admin/products',
+       action: req.query.action
     });
-}
+ }
+
 
 exports.getAddProduct = (req,res,next)=>{
         res.render('admin/add-product', {
@@ -37,12 +39,16 @@ exports.getEditProduct = (req,res,next)=>{
     }
 exports.postEditProduct = (req,res,next) => {
     const product = Product.getById(req.body.id);
-    console.log(req.body);
     product.name = req.body.name;
     product.price = req.body.price;
     product.image = req.body.image;
     product.description = req.body.description
 
     Product.Update(product); // model ıcınde update fonksıyonu yazdık burda o fonksıyonu cagardık
-    res.redirect('/admin/products');
+    res.redirect('/admin/products?action=edit');
+}
+
+exports.postDeleteProduct = (req,res,next)=>{
+    Product.DeleteById(req.body.productid);
+    res.redirect('/admin/products?action=delete');
 }

@@ -1,22 +1,29 @@
 extends ../layouts/main-layout.pug
-block content       
-    .row 
-        if products.length > 0
-            table.table.table-bordered      
-                thead   
+block content
+    if(action !== 'undefined' && action ==='edit')
+        div.alert.alert-danger The product has been updated.
+
+    if(action !== 'undefined' && action ==='delete')
+        div.alert.alert-success The product has been deleted.        
+    if products.length > 0
+        table.table.table-bordered      
+            thead   
+                tr  
+                    th Image 
+                    th Product Name 
+                    th Price    
+                    th 
+            tbody
+                each product in products    
                     tr  
-                        th Image 
-                        th Product Name 
-                        th Price    
-                        th 
-                tbody
-                    each product in products    
-                        tr  
-                            td
-                               img(src=`/images/${product.image}` width='80')
-                            td #{product.name}
-                            td #{product.price} TL 
-                            td  
-                                a.btn.btn-primary.btn-sm(href=`/admin/products/${product.id}`) edit
-        else    
-            h1 No Products
+                        td
+                            img(src=`/images/${product.image}` width='80')
+                        td #{product.name}
+                        td #{product.price} TL 
+                        td  
+                            a.btn.btn-primary.btn-sm(href=`/admin/products/${product.id}`) edit
+                            form(action='/admin/delete-product' method='POST')
+                                input(type="hidden" name='productid' value=`${product.id}`)
+                                button(type='submit').btn.btn-danger.btn-sm Delete
+    else    
+        h1 No Products

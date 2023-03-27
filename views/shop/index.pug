@@ -1,9 +1,13 @@
 extends ../layouts/main-layout.pug
 include ../mixin/createProduct.pug    
 block content       
-    include ../includes/slider.pug
-
+ 
     .row
+      .col-lg-3
+        include ../includes/menu.pug
+      .col-lg-9
+        include ../includes/slider.pug
+
       if products.length > 0 
         each product in products  
           +createProduct(product) 
