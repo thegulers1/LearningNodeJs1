@@ -19,4 +19,14 @@ const dbConn = async () => {
       console.log(err)
     }
    }
-module.exports = dbConn
+async function getAllData(query){
+    try{
+        const pool = await dbConn();
+        const recordSet =await pool.query(query)
+        return recordSet
+    }catch(err){
+        console.log(err)
+    }
+} 
+
+module.exports = getAllData
