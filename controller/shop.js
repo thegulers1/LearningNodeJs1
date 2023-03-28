@@ -6,7 +6,7 @@ exports.getIndex = (req,res,next)=>{
    // const products = Product.getAll();
    const categories = Category.getAll();
 
-   Product.getAll()
+    Product.getAll()
         .then(products =>{
             res.render('shop/index', {
                 title:'Shopping',
@@ -18,8 +18,7 @@ exports.getIndex = (req,res,next)=>{
         .catch((err) =>{
             console.log(err)
         });
-    
-}
+    }
 exports.getProducts = (req,res,next)=>{
      const products = Product.getAll();
      const categories = Category.getAll();

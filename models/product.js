@@ -2,9 +2,8 @@ const connection = require('../utility/database');
 
 async function getAllData(){
     try{
-        const pool = await dbConn();
-        const recordSet = pool.query("select * from products")
-        pool.close()
+        const pool = await connection();
+        const recordSet =await pool.query("select * from product")
         return recordSet
     }catch(err){
         console.log(err)
@@ -23,9 +22,8 @@ module.exports = class Product{
     saveProduct(){
 
     }
-    static getAll(){
-        getAllData()
-        }
+    static getAll() {
+        getAllData()      }
 
     static getById(id){
 

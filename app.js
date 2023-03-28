@@ -35,6 +35,18 @@ async function getAll(){
     }
 } getAll()*/
  
+async function getAllData(){
+    try{
+        const pool = await connection();
+        const recordSet =await  pool.query("select * from product")
+        console.log(recordSet);
+
+        return recordSet
+    }catch(err){
+        console.log(err)
+    }
+} 
+getAllData()
 //404page
 app.use(errorController.get404Page);
 app.listen(5000,()=>{
