@@ -10,7 +10,7 @@ exports.getIndex = (req,res,next)=>{
         .then(products =>{
             res.render('shop/index', {
                 title:'Shopping',
-                products: products[0],
+                products: products,
                 categories : categories,
                 path:'/'
             });
@@ -20,27 +20,35 @@ exports.getIndex = (req,res,next)=>{
         });
     }
 exports.getProducts = (req,res,next)=>{
-     const products = Product.getAll();
-     const categories = Category.getAll();
+    const categories = Category.getAll();
 
-    res.render('shop/products', {
-       title:'Products',
-       products: products,
-       categories : categories,
-       path:'/products'
-    })
+    Product.getAll()
+     .then(products =>{
+        res.render('shop/products', {
+            title:'Products',
+            products: products,
+            categories : categories,
+            path:'/products'
+         })
+     })
+     .catch((err) =>{
+         console.log(err)
+     });
+
 } 
 //product Id ıle ılgılı productın sayfasının acılmasını saglar   bunun ıcın product model de getbyıd dıye bır fonksıtyonda tanımladık.
 exports.getProduct = (req,res,next)=>{
-    const product = Product.getById(req.params.productid)
-
-    res.render('shop/product-detail',{
-        title: product.name,
-        product : product,
-        path : '/products'
-    })
-     res.redirect('/');
-} 
+    Product.getById(req.params.productid)
+        .then((product) =>{ console.log(product)
+             res.render('shop/product-detail',{
+                title: product[0].name,
+                product : product[0],
+                path : '/products'
+             })
+        }).catch((err)=>{
+            console.log(err)
+        }); 
+    } 
 exports.getProductsByCategoryId = (req,res,next)=>{
     const categoryid = req.params.categoryid;
     const products = Product.getProductsByCategoryId(categoryid);
@@ -53,12 +61,7 @@ exports.getProductsByCategoryId = (req,res,next)=>{
         path:'/products'
      })
 }
-exports.getProductDetails = (req,res,next)=>{
-     res.render('shop/details', {
-       title:'Details',
-        path:'/details'
-    })
-} 
+ 
  
 exports.getCart = (req,res,next)=>{
     res.render('shop/cart', {
@@ -72,3 +75,5 @@ exports.getOrders= (req,res,next)=>{
        path:'/orders'
    })
 } 
+
+ 

@@ -23,31 +23,7 @@ app.get('/',(req,res,next)=>{
     
     res.send('Hello World')
 })
-/*
-async function getAll(){
-    try{
-        const pool = await connection();
-        const recordSet = await pool.query("select first_name from MOCK_DATA")
-        pool.close()
-        console.log(recordSet);
-    }catch(err){
-        console.log(err)
-    }
-} getAll()*/
  
-async function getAllData(){
-    try{
-        const pool = await connection();
-        const recordSet =await  pool.query("select * from product")
-        console.log(recordSet);
-
-        return recordSet
-    }catch(err){
-        console.log(err)
-    }
-} 
-getAllData()
-//404page
 app.use(errorController.get404Page);
 app.listen(5000,()=>{
 

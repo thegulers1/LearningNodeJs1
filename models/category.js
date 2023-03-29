@@ -1,33 +1,32 @@
-const categories = [
-    {id:"1", name:"telefon", description:"telefon ürünleri"},
-    {id:"2", name:"bilgisayar", description:"bilgisayar ürünleri"},
-    {id:"3", name:"beyaz eşya", description:"beyaz eşya ürünleri"}
-
-]
+const connection = require('../utility/database');  
 module.exports = class Category{
     constructor(name, description){
-        this.id = (categories.length+1).toString();
         this.name = name;
         this.description = description;
     }
-    saveCategory(){
-        categories.push(this)
+    async saveCategory(){
+        const pool = await connection();
+        const insert =await pool.query `insert into category(name,description) values(${this.name},${this.description})`
+        return insert  
+     }
+    static async  getAll(){
+        const pool = await connection();
+        const {recordset} = await pool.query("select * from category")
+        return recordset
+     }
+    static async getById(id){
+        const pool = await connection();
+        const {recordset}= await pool.query `select * from category where id = ${id}`
+        return recordset    
+     }
+    static async update(category){
+        const pool = await connection();
+        const {update} = await pool.query `update category set name = ${category.name},description = ${category.description} where id = ${category.id}`
+        return update
     }
-    static getAll(){
-        return categories;
-    }
-    static getById(id){
-        return categories.find(i => i.id === id)
-    }
-    static update(category){
-        const index = categories.findIndex(i => i.id === categories.id);
-        categories[index].name  = category.name;
-        categories[index].description  = category.description;
-
-    }
-    static delete(category){
-        const index = categories.findIndex(i => i.id === categories.id);
-        categories.splice(index,1);
-
+    static async deleteById(category){
+        const pool = await connection();
+        const {deleted} = await pool.query `delete from category where id = ${id}`
+        return deleted 
     }
 } 

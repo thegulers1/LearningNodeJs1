@@ -1,4 +1,5 @@
 const connection = require('../utility/database');  
+const { getById } = require('./category');
 
 
 
@@ -11,27 +12,39 @@ module.exports = class Product{
         this.categoryid = categoryid;
         
     }  
-    saveProduct(){
-
+    async saveProduct(){
+        const pool = await connection();
+        const insert =await pool.query `insert into product(name,description,price,image,categoryid) values(${this.name},${this.description},${this.price},${this.image},${this.categoryid})`
+        return insert     
     }
-    get
-    static getAll() {
+    
+    static async getAll() {
+        const pool = await connection();
+        const {recordset} =await pool.query("select * from product")
+        return recordset
     }
  
-    static getById(id){
+    static async getById(id){
+        const pool = await connection();
+        const {recordset}= await pool.query `select * from product where id = ${id}`
+        return recordset     
+     }
 
-            
-    }
-   
     static getProductsByCategoryId(categoryid){
 
     }
 
-    static Update(product){
+    static async Update(product){
+        const pool = await connection();
+        const {update} = await pool.query `update product set name = ${product.name},description = ${product.description},price = ${product.price},image = ${product.image},categoryid = ${product.categoryid} where id = ${product.id}`
+        return update
+        }
 
-
+    static async DeleteById(id){
+        const pool = await connection();
+        const {deleted} = await pool.query `delete from product where id = ${id}`
+        return deleted
     }
-    static DeleteById(id){
 
-    }
 }   
+ 
