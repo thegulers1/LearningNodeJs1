@@ -17,32 +17,51 @@ exports.getProducts = (req,res,next)=>{
     });
  }
 exports.getAddProduct = (req,res,next)=>{
-        Category.getAll()
-            .then((categories)=>{
-                res.render('admin/add-product', {
-                    title:'New Product',
-                    path:'/admin/add-product',
-                    categories : categories
-                });
+    res.render('admin/add-product', {
+        title:'New Product',
+        path:'/admin/add-product',
+       // categories : categories
+    });
+        // Category.getAll()
+        //     .then((categories)=>{
+        //         res.render('admin/add-product', {
+        //             title:'New Product',
+        //             path:'/admin/add-product',
+        //             categories : categories
+        //         });
 
-                }).catch((err)=>{
-                    console.log(err)
-                })
+        //         }).catch((err)=>{
+        //             console.log(err)
+        //         })
 
     }
 exports.postAddProduct = (req,res,next)=>{
-       const product = new Product();
-       product.name =  req.body.name;
-       product.price =  req.body.price;
-       product.image =  req.body.image;
-       product.categoryid = req.body.categoryid;
-       product.description =  req.body.description;
-       
+       //const product = new Product();
+
+       const name =  req.body.name;
+       const price =  req.body.price;
+       const imageUrl =  req.body.imageUrl;
+      // const categoryid = req.body.categoryid;
+       const description =  req.body.description;
+
+       Product.create({
+            name : name,
+            price: price,
+            imageUrl : imageUrl,
+            description :description
+       }).then(result=>{
+            console.log(result);
+            res.redirect('/')
+       }).catch((err)=>{
+            console.log(err)
+       })
+
+       /*
        product.saveProduct().then(()=>{
         res.redirect('/')
        }).catch((err)=>{
             console.log(err)
-       });
+       });*/
        //res.json({ message: 'Save Success' });
        
     }

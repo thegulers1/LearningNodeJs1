@@ -1,4 +1,4 @@
-const sql = require('mssql')
+/*const sql = require('mssql')
 var config = {
   server: "MSG-70",
   database: "Movies",
@@ -21,4 +21,11 @@ const dbConn = async () => {
    }
  
 
-module.exports = dbConn
+module.exports = dbConn*/
+
+const Sequelize = require("sequelize")
+const sequelize = new Sequelize('Movies','sa','1234',{
+  dialect: 'mssql',
+  host :'MSG-70'
+});
+module.exports = sequelize;

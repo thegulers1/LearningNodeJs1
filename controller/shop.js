@@ -4,7 +4,7 @@ const Product = require('../models/product')
 exports.getIndex = (req,res,next)=>{
     // res.sendFile(path.join(__dirname,'../','views','index.html'));
    // const products = Product.getAll();
-   const categories = Category.getAll();
+  // const categories = Category.getAll();
 
     Product.getAll()
         .then(products =>{
@@ -20,14 +20,14 @@ exports.getIndex = (req,res,next)=>{
         });
     }
 exports.getProducts = (req,res,next)=>{
-    const categories = Category.getAll();
+    //const categories = Category.getAll();
 
     Product.getAll()
      .then(products =>{
         res.render('shop/products', {
             title:'Products',
             products: products,
-            categories : categories,
+            //categories : categories,
             path:'/products'
          })
      })
@@ -50,14 +50,14 @@ exports.getProduct = (req,res,next)=>{
         }); 
     } 
 exports.getProductsByCategoryId = (req,res,next)=>{
-    const categoryid = req.params.categoryid;
+   // const categoryid = req.params.categoryid;
     const products = Product.getProductsByCategoryId(categoryid);
-    const categories = Category.getAll();    
+    //const categories = Category.getAll();    
     res.render('shop/products', {
         title:'Products',
         products: products,
-        categories : categories,
-        selectedCategory :categoryid,
+      //  categories : categories,
+      //  selectedCategory :categoryid,
         path:'/products'
      })
 }
