@@ -5,49 +5,74 @@ exports.getIndex = (req,res,next)=>{
     // res.sendFile(path.join(__dirname,'../','views','index.html'));
    // const products = Product.getAll();
   // const categories = Category.getAll();
-
-    Product.getAll()
-        .then(products =>{
+  Product.findAll(
+    {
+        attributes : ['id','name','price','imageUrl'], //sadece cekmek ıstedıgımız alanları cekmek ıcın kullanılır 
+    })
+    .then(products => {
+      Category.findAll()
+          .then(categories =>{
             res.render('shop/index', {
                 title:'Shopping',
                 products: products,
                 categories : categories,
                 path:'/'
             });
-        })
-        .catch((err) =>{
-            console.log(err)
-        });
+          }).catch(err =>{
+                  console.log(err)
+              });
+   }).catch(err=>{
+          console.log(err)
+});
     }
-exports.getProducts = (req,res,next)=>{
+  
+ //db dekı tum urunlerı almak ıcın bunu kullanıyorz fınd all   
+exports.getProducts = (req,res,next) => {
     //const categories = Category.getAll();
-
-    Product.getAll()
-     .then(products =>{
-        res.render('shop/products', {
-            title:'Products',
-            products: products,
-            //categories : categories,
-            path:'/products'
-         })
-     })
-     .catch((err) =>{
-         console.log(err)
-     });
-
-} 
+    Product.findAll()
+        .then(products => {
+            Category.findAll()
+                .then(categories =>{
+                    res.render('shop/products', {
+                        title:'Products',
+                        products: products,
+                        categories : categories,
+                        path:'/products'
+                }).catch(err =>{
+                        console.log(err)
+                    });
+        }).catch(err=>{
+                console.log(err)
+    });
+});
+}
 //product Id ıle ılgılı productın sayfasının acılmasını saglar   bunun ıcın product model de getbyıd dıye bır fonksıtyonda tanımladık.
+
+//findByPk ile de tek bır urune ulasabılırım findAll ıcınde where cumlesı kullanarak da tek bır elemana ulasabılırım. id den farklı parametreler vermek ıstedıgım de where kullanmam gerek
 exports.getProduct = (req,res,next)=>{
-    Product.getById(req.params.productid)
-        .then((product) =>{ console.log(product)
-             res.render('shop/product-detail',{
-                title: product[0].name,
-                product : product[0],
-                path : '/products'
-             })
-        }).catch((err)=>{
-            console.log(err)
-        }); 
+        Product.findAll({
+            attributes : ['id','name','price','imageUrl','description'],
+            where : {id : req.params.productid}})
+            .then(products=>{
+                res.render('shop/product-detail',{
+                  title: products[0].name,
+                  product : products[0],
+                  path : '/products'
+               });
+           })
+           .catch(err=>{
+                console.log(err)
+            })
+    // Product.findByPk(req.params.productid)
+    //     .then((product) =>{ 
+    //          res.render('shop/product-detail',{
+    //             title: product.name,
+    //             product : product,
+    //             path : '/products'
+    //          })
+    //     }).catch((err)=>{
+    //         console.log(err)
+    //     }); 
     } 
 exports.getProductsByCategoryId = (req,res,next)=>{
    // const categoryid = req.params.categoryid;
@@ -57,7 +82,7 @@ exports.getProductsByCategoryId = (req,res,next)=>{
         title:'Products',
         products: products,
       //  categories : categories,
-      //  selectedCategory :categoryid,
+      //  selectedCategory :categoryid,é
         path:'/products'
      })
 }

@@ -3,7 +3,7 @@ const Category = require('../models/category');
 
 
 exports.getProducts = (req,res,next)=>{
-     Product.getAll()
+     Product.findAll()
     .then(products =>{
          res.render('admin/products', {
             title:'Admin Products',
@@ -17,11 +17,21 @@ exports.getProducts = (req,res,next)=>{
     });
  }
 exports.getAddProduct = (req,res,next)=>{
-    res.render('admin/add-product', {
-        title:'New Product',
-        path:'/admin/add-product',
-       // categories : categories
-    });
+    Category.findAll()
+    .then((categories)=>{
+        res.render('admin/add-product', {
+            title:'New Product',
+            path:'/admin/add-product',
+            categories : categories
+        });
+    }).catch((err)=>{
+            console.log(err)
+        })
+
+
+
+
+
         // Category.getAll()
         //     .then((categories)=>{
         //         res.render('admin/add-product', {
@@ -43,12 +53,13 @@ exports.postAddProduct = (req,res,next)=>{
        const imageUrl =  req.body.imageUrl;
       // const categoryid = req.body.categoryid;
        const description =  req.body.description;
-
+       const categoryId  = req.body.categoryId
        Product.create({
             name : name,
             price: price,
             imageUrl : imageUrl,
-            description :description
+            description :description,
+            categoryIdcategoryId : categoryId
        }).then(result=>{
             console.log(result);
             res.redirect('/')
@@ -68,15 +79,17 @@ exports.postAddProduct = (req,res,next)=>{
 // product edit sayfasında kı textbox alanların dolmasını burda yapıyoruz.    
 exports.getEditProduct = (req,res,next)=>{
  
-        Product.getById(req.params.productid) 
+        Product.findByPk(req.params.productid) 
             .then((product) =>{  
-                Category.getAll()
+                if(!product){
+                    return redirect('/')
+                }
+                Category.findAll()
                 .then((categories)=>{
-                    console.log(categories)
                     res.render('admin/edit-product', {
                         title:'Edit product',
                         path:'/admin/products',
-                        product : product[0],
+                        product : product,
                         categories : categories
             
                     })  
@@ -92,27 +105,66 @@ exports.getEditProduct = (req,res,next)=>{
     }//burayı sor yukardakı sevde degısken . functıon adı calıstı asagıda calısmıyor 
 exports.postEditProduct = (req,res,next) => {
     const product = new Product();
-    product.id = req.body.id;
-    product.name = req.body.name;
-    product.price = req.body.price;
-    product.image = req.body.image;
-    product.description = req.body.description;
-    Product.Update(product).then(()=>{
-        res.redirect('/admin/products?action=edit');
-       }).catch((err)=>{
+    const id = req.body.id;
+    const name = req.body.name;
+    const price = req.body.price;
+    const imageUrl = req.body.imageUrl;
+    const description = req.body.description;
+    const categoryId  = req.body.categoryId
+
+    Product.findByPk(id)
+        .then(product=>{
+            product.name = name;
+            product.price = price;
+            product.imageUrl = imageUrl;
+            product.description = description;
+            product.categoryId = categoryId;
+            return product.save();
+
+        }).then(result=>{
+            console.log("updated")
+            res.redirect('/admin/products?action=edit');
+        }).catch(err=>{
             console.log(err)
-       });
+        })
+
+    // Product.Update(product).then(()=>{
+    //     res.redirect('/admin/products?action=edit');
+    //    }).catch((err)=>{
+    //         console.log(err)
+    //    });
      
 
 
 }
 
 exports.postDeleteProduct = (req,res,next)=>{
-    Product.DeleteById(req.body.productid) 
-    .then((product) =>{ console.log(product)
-        res.redirect('/admin/products?action=delete');
-        }).catch((err)=>{
-            console.log(err)
-        }); 
+   const id = req.body.productid;
+   Product.findByPk(id)
+   .then(product=>{
+       return product.destroy();
+   }).then(result=>{
+    console.log("deleted success")
+    res.redirect('/admin/products?action=delete');
+}).catch(err=>{
+    console.log(err)
+   })
+
+ //silme yontemlerinden bırısı asagıdakıdır
+
+//    Product.destroy({where : {id : id}})
+//        .then(()=>{
+//             res.redirect('/admin/products?action=delete');
+//             console.log(err);
+//     }).catch(err=>{
+//             console.log(err)
+//     });
+   
+    // Product.DeleteById(req.body.productid) 
+    // .then((product) =>{ console.log(product)
+    //     res.redirect('/admin/products?action=delete');
+    //     }).catch((err)=>{
+    //         console.log(err)
+    //     }); 
     
 }

@@ -14,16 +14,16 @@ block content
             div.col-sm-10
                 input(type="text" name="price").form-control#price
         form-group.row.my-3
-            label(for="image").col-sm-2.col-form-label Image
+            label(for="imageUrl").col-sm-2.col-form-label Image
             div.col-sm-10
                 input(type="text" name="imageUrl").form-control#image
-        //- form-group.row.my-3
-        //-     label(for="categoryid").col-sm-2.col-form-label Category
-        //-     div.col-sm-10
-        //-         select.form-control#categoryid(name="categoryid")
-        //-             option(value="-1") Select Category 
-        //-                 each category in categories 
-        //-                     option(value=`${category.Id}`)  #{category.CategoryName}         
+        form-group.row.my-3
+            label(for="categoryId").col-sm-2.col-form-label Category
+            div.col-sm-10
+                select.form-control#categoryid(name="categoryId")
+                    option(value="-1") Select Category 
+                        each category in categories 
+                            option(value=`${category.id}`)  #{category.name}         
         form-group.row.my-3
             label(for="description").col-sm-2.col-form-label Description
             div.col-sm-10

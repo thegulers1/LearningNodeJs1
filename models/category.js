@@ -10,12 +10,7 @@ const Category = sequelize.define('category',{
          },
     name: {
         type : Sequelize.STRING
-    },
-    price: {
-            type: Sequelize.DOUBLE,
-            allowNull:false
-    },
- 
+    } ,
     description:{
         type:Sequelize.STRING,
         allowNull:true
