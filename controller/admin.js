@@ -53,13 +53,13 @@ exports.postAddProduct = (req,res,next)=>{
        const imageUrl =  req.body.imageUrl;
       // const categoryid = req.body.categoryid;
        const description =  req.body.description;
-       const categoryId  = req.body.categoryId
+       const categoryid  = req.body.categoryid
        Product.create({
             name : name,
             price: price,
             imageUrl : imageUrl,
             description :description,
-            categoryIdcategoryId : categoryId
+            categoryid : categoryid
        }).then(result=>{
             console.log(result);
             res.redirect('/')

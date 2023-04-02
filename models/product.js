@@ -22,10 +22,16 @@ const Product = sequelize.define('product', {
     description:{
         type:Sequelize.STRING,
         allowNull:true
-    }
+    },
+    categoryid : {
+        type  :Sequelize.INTEGER
+         },
 
 });
+
 module.exports = Product
+
+
 // const { getById } = require('./category');
 
 
