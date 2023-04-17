@@ -23,16 +23,16 @@ const dbConn = async () => {
 
 module.exports = dbConn*/
 
-// const Sequelize = require("sequelize")
-// const sequelize = new Sequelize('Movies','sa','1234',{
-//   dialect: 'mssql',
-//   host :'MSG-70'
-// });
-// module.exports = sequelize;
-
 const Sequelize = require("sequelize")
-const sequelize = new Sequelize('TEST_DB','sa','1234',{
+const sequelize = new Sequelize('Movies','sa','1234',{
   dialect: 'mssql',
-  host :'DESKTOP-CQ978ES'
+  host :'MSG-70'
 });
 module.exports = sequelize;
+
+// const Sequelize = require("sequelize")
+// const sequelize = new Sequelize('TEST_DB','sa','1234',{
+//   dialect: 'mssql',
+//   host :'DESKTOP-CQ978ES'
+// });
+// module.exports = sequelize;

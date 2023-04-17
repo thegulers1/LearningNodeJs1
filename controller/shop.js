@@ -5,6 +5,7 @@ exports.getIndex = (req,res,next)=>{
     // res.sendFile(path.join(__dirname,'../','views','index.html'));
    // const products = Product.getAll();
   // const categories = Category.getAll();
+  console.log('-----------------------------------------',req.session.isAuthenticated)
   Product.findAll(
     {
         attributes : ['id','name','price','imageUrl'], //sadece cekmek ıstedıgımız alanları cekmek ıcın kullanılır 
@@ -16,7 +17,8 @@ exports.getIndex = (req,res,next)=>{
                 title:'Shopping',
                 products: products,
                 categories : categories,
-                path:'/'
+                path:'/',
+                isAuthenticated : req.session.isAuthenticated 
             });
           }).catch(err =>{
                   console.log(err)

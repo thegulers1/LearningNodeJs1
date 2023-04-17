@@ -3,6 +3,20 @@ const app = express();
 const bodyParser = require('body-parser');
 const adminRoutes = require('./routes/admin');
 const userRoutes = require('./routes/shop');
+const accountRoutes = require('./routes/account');
+var cookieParser = require('cookie-parser')
+const session = require('express-session');
+var MongoDBStore = require('connect-mongodb-session')(session);
+
+app.use(session({
+    secret :'keyboard-cat',
+    resave : false,
+    saveUninitialized : false,
+    cookie:{maxAge:360000}
+}));
+
+var 
+
 const path = require('path');  
 const errorController = require('./controller/errors')
 app.set("view engine", "pug");
@@ -22,7 +36,15 @@ app.use(express.static(path.join(__dirname,'public')));// bu dosya ıcını dıs
 //routes
 app.use('/admin',adminRoutes);
 app.use(userRoutes);
- 
+app.use(accountRoutes);
+app.use(session({
+    secret :'keyboard-cat',
+    resave : false,
+    saveUninitialized : false,
+    //cookie :{maxAge:3600000, secure:true}
+
+}));
+
  
 
 app.get('/',(req,res,next)=>{

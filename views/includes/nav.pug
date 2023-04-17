@@ -13,14 +13,18 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-primary.fixed-top
 
         li.nav-item
           a(href='/orders' class=(path === '/orders'? 'nav-link active' : 'nav-link')) Orders
- 
-        li.nav-item
-          a(href='/admin/add-product' class=(path === '/admin/add-product'?'nav-link active' : 'nav-link')) AddProduct
+        if isAuthenticated
+          li.nav-item
+            a(href='/admin/add-product' class=(path === '/admin/add-product'?'nav-link active' : 'nav-link')) AddProduct
 
-        li.nav-item
-          a(href='/admin/products' class=(path === '/admin/products'?'nav-link active' : 'nav-link')) Admin Products
+          li.nav-item
+            a(href='/admin/products' class=(path === '/admin/products'?'nav-link active' : 'nav-link')) Admin Products
       ul.navbar-nav.mr-auto
-        li.nav-item
-          a.nav-link(href='') Login
-        li.nav-item
-          a.nav-link(href='') Register
+        if isAuthenticated
+          li.nav-item
+            a.nav-link(href='/login') Logout
+        else
+          li.nav-item
+            a.nav-link(href='/login') Login
+          li.nav-item
+            a.nav-link(href='/register') Register
