@@ -2,21 +2,22 @@ const express = require('express')
 const router = express.Router();
 const bodyParser = require('body-parser');
 // const path = require('path') // artık kullanmıyoruz cunkı render metodunu kuulanıyoruz
-const adminController = require('../controller/admin')
-
+const adminController = require('../controller/admin');
+const { NText } = require('mssql');
+const isAuthenticated = require('../middleware/authentication')
 
 //admin/add-product => GET
-router.get('/add-product',adminController.getAddProduct);
+router.get('/add-product',isAuthenticated,adminController.getAddProduct);
 //admin/add-product => POST
-router.post('/add-product',adminController.postAddProduct);
+router.post('/add-product',isAuthenticated,adminController.postAddProduct);
 
-router.get('/products/:productid',adminController.getEditProduct);
+router.get('/products/:productid',isAuthenticated,adminController.getEditProduct);
 
-router.post('/products',adminController.postEditProduct);
+router.post('/products',isAuthenticated,adminController.postEditProduct);
 
-router.get('/products',adminController.getProducts);
+router.get('/products',isAuthenticated,adminController.getProducts);
 
-router.post('/delete-product',adminController.postDeleteProduct);
+router.post('/delete-product',isAuthenticated,adminController.postDeleteProduct);
 
 
 

@@ -15,7 +15,7 @@ app.use(session({
     cookie:{maxAge:360000}
 }));
 
-var 
+  
 
 const path = require('path');  
 const errorController = require('./controller/errors')
